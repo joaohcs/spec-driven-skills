@@ -46,6 +46,7 @@ Create the following structure in the project root:
 ```
 AGENTS.md              # Agent-agnostic project conventions (source of truth)
 CLAUDE.md              # References AGENTS.md (if using Claude Code)
+.mcp.json              # MCP server configurations (committed to repo)
 
 specs/
 ├── active/            # Current specs being worked on
@@ -74,11 +75,13 @@ Each stack file contains:
 - Additional setup steps (packages, config files, folder conventions)
 - How to configure `tech-infra.md` for that stack
 - Agent configuration (`AGENTS.md` entries)
-- MCPs to add (with prompts to ask the user for credentials/project IDs)
+- MCPs to configure in `.mcp.json` (with prompts to ask the user for credentials/project IDs)
 - **External agent skills to install** (e.g., `vercel-labs/agent-skills`, `supabase/agent-skills`) via `npx skills add`
 - External skills or references to download if available
 
 Apply all relevant stack files. If stacks overlap (e.g., Next.js + Supabase), apply both — they're designed to compose.
+
+**MCP configuration:** Always configure MCPs in the project's `.mcp.json` file so the configuration is committed to the repo and available to all contributors. Do not assume any MCP the agent already has access to is the correct one for this project — always set it up explicitly in `.mcp.json`. The only exception is if `.mcp.json` already exists and contains the exact configuration you would create. Depending on the MCP, ask the user if any extra configuration is needed — for example, how to inject credentials (API keys, tokens, environment variables), whether to use read-only vs read-write mode, or any project-specific connection details.
 
 **Important:** When installing external skills via `npx skills add`, always use non-interactive flags so the command doesn't hang waiting for input. The pattern is:
 ```bash
